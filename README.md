@@ -1,96 +1,59 @@
 # 🔮 AI Palm Reader
 
-A mystical AI-powered palm reading application that analyzes palm images using advanced vision language models. Get instant, personalized palm readings in both English and Turkish with poetic, mystical insights about your personality, life path, and future opportunities.
+A mystical AI-powered palm reading application that analyzes palm images using vision language models. Upload a photo or capture one with your camera, and receive an instant, personalized palm reading with poetic insights about your personality, life path, emotional nature, and future opportunities — all in both English and Turkish.
 
-🌐 **Live Demo**: [Try it out!](https://palm-reader-ai.streamlit.app/)
+🌐 **Live Demo**: [palm-reader-ai.streamlit.app](https://palm-reader-ai.streamlit.app/)
 
-## 🌟 Features
+**How it works**: A vision-capable LLM (via LiteLLM) examines the image, the Instructor library enforces a structured output (suitability check + bilingual text), and the result is rendered in a clean Streamlit interface.
 
-- 📸 **Dual Input Methods**: Upload palm images or capture them directly with your device's camera
-- 🤖 **AI-Powered Analysis**: Uses LiteLLM with structured outputs via Instructor for reliable palm reading generation
-- 🌍 **Bilingual Support**: Simultaneous readings in English and Turkish with mystical, poetic tone
-- 🎨 **Elegant Interface**: Clean, responsive Streamlit design optimized for both desktop and mobile
-- 🧙‍♂️ **Mystical Insights**: Comprehensive readings covering personality traits, life path, emotions, and predictions
-- ✨ **Smart Detection**: Intelligent palm detection that works even with partially visible or unclear hand images
-
-## 🚀 Getting Started
+## 🚀 Local Development
 
 ### Prerequisites
 
-- **Python 3.12 or higher**
-- **uv package manager** (recommended but optional)
-- **LiteLLM compatible API key** from any supported provider (OpenAI, Anthropic, Google, etc.)
+- Python 3.12+
+- API key from any LiteLLM-supported provider (OpenAI, Anthropic, Google, etc.)
 
-### Installation
+### Setup & Run
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/YasinEfeee/Palm-Reader.git
-   cd Palm-Reader
-   ```
+```bash
+# Clone
+git clone https://github.com/YasinEfeee/Palm-Reader.git
+cd Palm-Reader
 
-2. **Install dependencies:**
+# Install — choose one:
+uv sync                    # recommended (fast)
+# or
+pip install -r requirements.txt   # fallback
 
-   Using `uv` (recommended):
-   ```bash
-   uv sync
-   ```
+# Configure credentials
+# Create .streamlit/secrets.toml with:
+#   LLM_API_KEY = "your_key_here"
+#   LLM_MODEL  = "gemini/gemini-3.1-flash-lite"   # any vision-capable model
 
-   Or using `pip`:
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Start the app — choose one:
+uv run streamlit run src/main.py       # with uv
+# or
+streamlit run src/main.py              # with pip
+```
 
-3. **Configure your API credentials:**
+Open `http://localhost:8501` in your browser. Uploads are limited to 20 MB.
 
-   Create a `.streamlit/secrets.toml` file in the project root:
+### Supported Models
+
+Any vision-capable model from LiteLLM's provider catalog is compatible.
+
+## ☁️ Deploy to Streamlit Community Cloud
+
+1. Push the repo to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub, and click **New app**
+3. Select your repo, set **Main file path** to `src/main.py`, and click **Deploy**
+4. Go to app **Settings → Secrets** and add:
+
    ```toml
-   LLM_API_KEY = "your_api_key_here"
-   LLM_MODEL = "your_model_name_here"  # it must support vision capabilities
+   LLM_API_KEY = "your_key_here"
+   LLM_MODEL  = "gemini/gemini-3.1-flash-lite"
    ```
 
-   **Supported models**: Any vision-capable model from LiteLLM's provider list is supported.
-   - See [LiteLLM Models](https://models.litellm.ai) for full list.
+   The `gemini/gemini-3.1-flash-lite` model is recommended because it is fast and has a free tier on AI Studio. You can grab an API key from [AI Studio](https://aistudio.google.com/api-keys) and use it.
 
-### Running the Application
-
-**Local Development:**
-```bash
-uv run streamlit run PalmReader.py
-```
-
-**Alternative (if uv not available):**
-```bash
-streamlit run PalmReader.py
-```
-
-The app will be available at `http://localhost:8501`
-
-## 🤖 How It Works
-
-The application combines modern AI technology with mystical palm reading traditions:
-
-1. **Image Capture**: Choose between uploading an existing palm image or capturing one directly using your device's camera
-2. **AI Analysis**: The image is processed by a vision-language model using structured outputs via the Instructor library
-3. **Palm Detection**: Smart detection system identifies hands even in partially visible or unclear images
-4. **Mystical Generation**: AI generates comprehensive palm readings covering:
-   - **Personality Traits**: Hidden strengths and character insights
-   - **Life Path**: Future opportunities and personal growth
-   - **Emotional Nature**: Relationship patterns and emotional depth
-   - **Mystical Predictions**: Inspiring forecasts about your journey
-5. **Dual Language Output**: Receive your reading in both English and Turkish with poetic, mystical language
-
-## 🏗️ Technical Architecture
-
-- **Frontend**: Streamlit with responsive design and camera integration
-- **AI Integration**: LiteLLM for multi-provider LLM access
-- **Structured Output**: Instructor (Pydantic) for reliable response parsing
-- **Image Processing**: PIL for image handling and base64 encoding
-- **Dependencies**: Modern Python stack with uv package management
-
-## 🙏 Acknowledgments
-
-- **[LiteLLM](https://github.com/BerriAI/litellm)** - Universal LLM API for seamless model integration
-- **[Instructor](https://github.com/jxnl/instructor)** - Structured outputs for reliable AI responses  
-- **[Streamlit](https://streamlit.io/)** - Beautiful web apps for machine learning and data science
-- **[Pydantic](https://pydantic.dev/)** - Data validation using Python type annotations
+5. The app will auto-rebuild on every push to the deployed branch
